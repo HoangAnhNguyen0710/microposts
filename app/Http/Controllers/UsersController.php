@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Micropost;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
 
 class UsersController extends Controller
 {
@@ -27,10 +28,14 @@ class UsersController extends Controller
         
         // ユーザーの投稿一覧を作成日時の降順で取得
         $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        $albums = $user->albums()->orderBy('created_at', 'desc')->paginate(10)->all();
+        
+        // dd($albums->all());
         // ユーザー詳細ビューでそれを表示
         return view('users.show', [
             'user' => $user,
-            'microposts' => $microposts
+            'microposts' => $microposts,
+            'albums' => $albums
         ]);
     }
     
@@ -90,5 +95,21 @@ class UsersController extends Controller
             'user' => $user,
             'microposts' => $favorites,
         ]);
+    }
+
+    public function updateAvatar(Request $request){
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+    
+        // Get the uploaded file
+        $file = $request->file('image');
+        $imageUrl = Helper::uploadImage($file, 'avatars');
+        
+        $user = User::where('id', auth()->id())->first();
+        $user->avatar = $imageUrl;
+        $user->save();
+        
+        return back();
     }
 }

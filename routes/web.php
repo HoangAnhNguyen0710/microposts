@@ -7,6 +7,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\UserFollowController;
 use App\Http\Controllers\UserFavoriteController;
 use App\Http\Controllers\MicropostsController;
+use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,7 @@ use App\Http\Controllers\MicropostsController;
 |
 */
 
-Route::get('/', [MicropostsController::class, 'index']);
+Route::get('/', [UsersController::class, 'index']);
 
 Route::get('/dashboard', [MicropostsController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -31,12 +33,14 @@ Route::middleware('auth')->group(function () {
         Route::get('followers', [UsersController::class, 'followers'])->name('users.followers');
         Route::get('favorites', [UsersController::class, 'favorites'])->name('user.list_favorites');
     });
+    Route::post('update_avatar', [UsersController::class, 'updateAvatar'])->name('users.updateAvatar');
+    Route::post('upload_image', [ImageController::class, 'upload'])->name('images.upload');
     Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
     //Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     //Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
     Route::resource('microposts', MicropostsController::class, ['only' => ['store', 'destroy']]);
+    Route::resource('albums', AlbumController::class, ['only' => ['store', 'destroy']]);
     
     Route::prefix( 'microposts/{id}' )->group(function () {
         Route::post( 'favorites' , [UserFavoriteController::class , 'store' ])->name( 'user.favorite' );

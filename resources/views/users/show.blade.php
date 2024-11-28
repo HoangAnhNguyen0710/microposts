@@ -5,6 +5,7 @@
         <aside class="mt-4">
             {{-- ユーザー情報 --}}
             @include('users.card')
+            @include('albums.list')
         </aside>
         <div class="sm:col-span-2 mt-4">
             {{-- タブ --}}  

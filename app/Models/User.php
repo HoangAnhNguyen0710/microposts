@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Helpers\Helper;
+use App\Models\Album;
 
 class User extends Authenticatable
 {
@@ -160,5 +162,22 @@ class User extends Authenticatable
     public function favoritesCount()
     {
         return $this->favorites()->count();
+    }
+    
+    public function getAvatar()
+    {
+        if(!empty($this->avatar) && strlen($this->avatar) > 0)
+            return Helper::getImage($this->avatar);
+        return null;
+    }
+    
+    public function albums()
+    {
+        return $this->hasMany(Album::class);
+    }
+    
+    public function albumCount()
+    {
+        return $this->albums()->count();
     }
 }

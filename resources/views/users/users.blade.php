@@ -5,7 +5,11 @@
                 {{-- ユーザーのメールアドレスをもとにGravatarを取得して表示 --}}
                 <div class="avatar">
                     <div class="w-12 rounded">
-                        <img src="{{ Gravatar::get($user->email) }}" alt="" />
+                        @if(!empty($user->avatar))
+                          <img src="{{ $user->getAvatar() }}" alt="">
+                        @else
+                           <img src="{{ Gravatar::get($user->email, ['size' => 500]) }}" alt="" class="">
+                        @endif
                     </div>
                 </div>
                 <div>
