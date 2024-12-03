@@ -22,7 +22,7 @@
                         </div>
                         <div>
                             {{-- 投稿内容 --}}
-                            <p class="mb-0">{!! nl2br(e($micropost->content)) !!}</p>
+                            <p class="mb-0">{!! $micropost->content !!}</p>
                         </div>
                         <div class="flex">
                             <div class="w-fit mr-1">
@@ -37,6 +37,7 @@
                                         onclick="return confirm('Delete id = {{ $micropost->id }} ?')">Delete</button>
                                 </form>
                             @endif
+                            @include('microposts.comment')
                         </div>
                     </div>
                 </li>

@@ -9,6 +9,7 @@ use App\Http\Controllers\UserFavoriteController;
 use App\Http\Controllers\MicropostsController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     //Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('microposts', MicropostsController::class, ['only' => ['store', 'destroy']]);
+    Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
     Route::resource('albums', AlbumController::class, ['only' => ['store', 'destroy']]);
     
     Route::prefix( 'microposts/{id}' )->group(function () {
