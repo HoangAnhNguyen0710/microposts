@@ -22,11 +22,14 @@ class Micropost extends Model
     
     public function comments()
     {
-        return $this->hasMany(Comment::class)->get();
+        return $this->hasMany(Comment::class)
+        ->whereNull('parent_id')
+        ->orderBy('created_at', 'desc')->get();
     }
     
     public function commentCount()
     {
-        return $this->comments()->count();
+        return $this->hasMany(Comment::class)
+        ->orderBy('created_at', 'desc')->get()->count();
     }
 }

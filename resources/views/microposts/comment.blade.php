@@ -1,6 +1,6 @@
 {{-- コメント部分 --}}
 <div class="my-2">
-    <button type="button" id="toggle-button-{{ $micropost->id }}" class="btn btn-link text-info btn-sm" onclick="toggleComments({{ $micropost->id }})">
+    <button type="button" id="toggle-button-{{ $micropost->id }}" class="btn btn-link text-info btn-sm" onclick="toggleComments({{ $micropost->id }}, {{$micropost->commentCount()}})">
         View Comments ({{$micropost->commentCount()}})
     </button>
     <div id="comments-{{ $micropost->id }}" class="hidden max-h-[200px] overflow-y-auto border p-2">
@@ -17,6 +17,7 @@
                     <strong>{{ $comment->user->name }}</strong>
                     <span class="text-gray-500 text-sm">{{ $comment->created_at }}</span>
                     <p>{!! nl2br(e($comment->content)) !!}</p>
+                    @include('microposts.children_comment')
                 </li>
             @endforeach
         </ul>
@@ -24,7 +25,7 @@
 </div>
                         
 <script>
-    function toggleComments(id) {
+    function toggleComments(id, count) {
         const commentDiv = document.getElementById(`comments-${id}`);
         const toggleButton = document.getElementById(`toggle-button-${id}`);
 
@@ -32,7 +33,7 @@
         
         // Update button text based on visibility
         if (commentDiv.classList.contains('hidden')) {
-            toggleButton.textContent = 'View Comments';
+            toggleButton.textContent = `View Comments (${count})`;
         } else {
             toggleButton.textContent = 'Hide Comments';
         }

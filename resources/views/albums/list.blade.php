@@ -1,6 +1,6 @@
 <div>
     @if(isset($albums))
-        <table class="table table-zebra w-full my-5">
+        <table class="table table-zebra w-full md:max-w-[300px] my-5">
             <thead>
             <tr>
                 <th>Album Name</th>

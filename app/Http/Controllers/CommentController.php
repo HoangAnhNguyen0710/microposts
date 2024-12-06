@@ -29,11 +29,17 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //
-        $comment = Comment::create([
+        $newComment = [
             'content'=> $request->content,
             'micropost_id'=>$request->micropost_id,
             'user_id'=> $request->user()->id
-            ]);
+            ];
+            
+        if ($request->parent_id){
+            $newComment['parent_id'] = $request->parent_id;
+        }
+            
+        $comment = Comment::create($newComment);
             
         $comment->save();
         return back();

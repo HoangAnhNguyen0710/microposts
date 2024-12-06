@@ -10,10 +10,16 @@ class Comment extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['content', 'micropost_id', 'user_id'];
+    protected $fillable = ['content', 'micropost_id', 'user_id', 'parent_id'];
     
     public function get_comment_reply(){
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'parent_id')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    }
+    
+    public function reply_count(){
+        return $this->get_comment_reply()->count();
     }
     
     public function get_parent_comment(){

@@ -14,7 +14,7 @@
         {{-- ナビゲーションバー --}}
         @include('commons.navbar')
 
-        <div class="container mx-auto">
+        <div class="container mx-auto px-3">
             {{-- エラーメッセージ --}}
             @include('commons.error_messages')
 
